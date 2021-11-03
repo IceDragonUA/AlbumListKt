@@ -1,20 +1,24 @@
 package com.rnd.app.extension
 
+import android.webkit.WebSettings
 import android.widget.ImageView
-import androidx.fragment.app.FragmentActivity
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.evaluation.glide.GlideApp
-import com.rnd.app.ui.main.MainActivity
 
 /**
  * @author Vladyslav Havrylenko
  * @since 24.12.2020
  */
-fun FragmentActivity.root() = this as? MainActivity
-
-fun String?.defIfNull() = this ?: ""
-
 fun ImageView.loadFromUrl(url: String) {
     GlideApp.with(this.context.applicationContext)
-        .load(url)
+        .load(
+            GlideUrl(
+                url,
+                LazyHeaders.Builder()
+                    .addHeader("User-Agent", WebSettings.getDefaultUserAgent(context))
+                    .build()
+            )
+        )
         .into(this)
 }

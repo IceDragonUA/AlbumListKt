@@ -1,4 +1,4 @@
-package com.rnd.app.ui.album
+package com.rnd.app.ui.photo
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,23 +8,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.rnd.app.common.base.AdapterItemClickListener
-import com.rnd.app.databinding.FragmentAlbumBinding
+import com.rnd.app.databinding.FragmentPhotoBinding
 import com.rnd.domain.core.ResultModel
-import com.rnd.domain.model.Album
+import com.rnd.domain.model.Photo
 
-class AlbumFragment : Fragment(), AdapterItemClickListener<Album> {
+class PhotoFragment : Fragment(), AdapterItemClickListener<Photo> {
 
-    private var binding: FragmentAlbumBinding? = null
+    private var binding: FragmentPhotoBinding? = null
     private val rootView get() = binding!!.root
 
-    private val viewModel: AlbumViewModel by viewModels()
+    private val viewModel: PhotoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAlbumBinding.inflate(inflater, container, false)
+        binding = FragmentPhotoBinding.inflate(inflater, container, false)
         return rootView
     }
 
@@ -47,7 +47,7 @@ class AlbumFragment : Fragment(), AdapterItemClickListener<Album> {
                 }
             }
         })
-        viewModel.getAlbums()
+        viewModel.getPhotos(PhotoFragmentArgs.fromBundle(requireArguments()).albumId)
     }
 
     override fun onDestroyView() {
@@ -55,9 +55,9 @@ class AlbumFragment : Fragment(), AdapterItemClickListener<Album> {
         binding = null
     }
 
-    override fun onClicked(item: Album) {
+    override fun onClicked(item: Photo) {
         findNavController().navigate(
-            AlbumFragmentDirections.actionAlbumFragmentToPhotoFragment(item.userId)
+            PhotoFragmentDirections.actionPhotoFragmentToDetailFragment(item.url)
         )
     }
 }

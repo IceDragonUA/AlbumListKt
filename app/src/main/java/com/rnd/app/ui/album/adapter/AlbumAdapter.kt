@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.rnd.app.common.base.AdapterItemClickListener
 import com.rnd.app.databinding.ViewAlbumListItemBinding
 import com.rnd.domain.model.Album
 import kotlin.properties.Delegates
@@ -14,7 +15,7 @@ import kotlin.properties.Delegates
  * @since 03.10.2020
  */
 @SuppressLint("NotifyDataSetChanged")
-class AlbumAdapter : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+class AlbumAdapter(private val listener: AdapterItemClickListener<Album>? = null) : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
     var items: List<Album> by Delegates.observable(listOf()) { _, _, _ ->
         notifyDataSetChanged()
@@ -36,6 +37,9 @@ class AlbumAdapter : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
         fun bind(item: Album) {
             itemBinding.apply {
                 tvTitle.text = item.title
+                itemView.setOnClickListener {
+                    listener?.onClicked(item)
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import com.rnd.domain.model.Album
 import com.rnd.domain.model.Photo
 import com.rnd.domain.repository.NetworkRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class Interactor(private val repository: NetworkRepository) {
 
@@ -12,7 +13,10 @@ class Interactor(private val repository: NetworkRepository) {
         return repository.getAlbums()
     }
 
-    fun getPhotos(): Flow<ResultModel<List<Photo>>> {
-        return repository.getPhotos()
+    fun getPhotos(albumId: Int): Flow<ResultModel<List<Photo>>> {
+        return repository.getPhotos().map {
+            it.data = it.data?.filter { it.albumId == albumId}
+            it
+        }
     }
 }

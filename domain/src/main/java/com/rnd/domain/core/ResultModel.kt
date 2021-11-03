@@ -1,6 +1,6 @@
 package com.rnd.domain.core
 
-data class ResultModel<out T>(val status: Status, val data: T?, val error: ErrorModel?, val message: String?) {
+data class ResultModel<T>(val status: Status, var data: T?, val error: ErrorModel?, val message: String?) {
 
     enum class Status {
         SUCCESS,
